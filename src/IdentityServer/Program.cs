@@ -23,6 +23,7 @@ namespace IdentityServer
                     .UseSerilog((context, configuration) =>
                     {
                         configuration
+                            //.WriteTo.File(new Serilog.Formatting.Raw.RawFormatter(), @"c:\temp\1.txt")
                             .MinimumLevel.Debug()
                             .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
                             .MinimumLevel.Override("System", LogEventLevel.Warning)

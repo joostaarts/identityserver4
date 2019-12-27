@@ -6,10 +6,12 @@ namespace IdentityServer
     public class Startup
     {
         public void ConfigureServices(IServiceCollection services)
-        {            
+        {
             var builder = services.AddIdentityServer()
                 .AddInMemoryApiResources(Config.Apis)
-                .AddInMemoryClients(Config.Clients);
+                .AddInMemoryClients(Config.Clients)
+                .AddTestUsers(Config.TestUsers);
+
 
             builder.AddDeveloperSigningCredential();
         }

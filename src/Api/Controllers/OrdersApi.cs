@@ -6,8 +6,16 @@ using System.Linq;
 [Authorize]
 public class Orders : ControllerBase
 {
-    [HttpGet]    
+    [HttpGet]
     public IActionResult Get()
+    {
+        return new JsonResult(from c in User.Claims select new { c.Type, c.Value });
+    }
+
+    [HttpGet]
+    [Authorize(Roles = "admin")]
+    [Route("ordersasadmin")]
+    public IActionResult GetAsAdmin()
     {
         return new JsonResult(from c in User.Claims select new { c.Type, c.Value });
     }
