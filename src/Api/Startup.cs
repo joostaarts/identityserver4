@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Api
 {
@@ -16,14 +14,24 @@ namespace Api
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            // fine for test
+            var key = new  X509SecurityKey(new X509Certificate2(@"..\IdentityServer\IdentityServer4.pfx"));
+            
             services.AddControllers();
 
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
-                {
+                {                    
                     options.Authority = "http://localhost:5000";
                     options.RequireHttpsMetadata = false;
                     options.Audience = "OrdersAPI";
+                    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                    {
+                        ValidateIssuer = true,                        
+                        ValidateAudience = true,                        
+                        ValidateLifetime = true,
+                        IssuerSigningKey = key
+                    };
                 });
         }
 

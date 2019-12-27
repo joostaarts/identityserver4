@@ -7,7 +7,7 @@ using System;
 
 namespace IdentityServer
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {
@@ -23,7 +23,7 @@ namespace IdentityServer
                     .UseSerilog((context, configuration) =>
                     {
                         configuration
-                            //.WriteTo.File(new Serilog.Formatting.Raw.RawFormatter(), @"c:\temp\1.txt")
+                            .WriteTo.File(new Serilog.Formatting.Compact.CompactJsonFormatter(), @"c:\temp\1.txt")
                             .MinimumLevel.Debug()
                             .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
                             .MinimumLevel.Override("System", LogEventLevel.Warning)

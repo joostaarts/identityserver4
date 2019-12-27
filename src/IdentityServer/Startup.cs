@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using System.Security.Cryptography.X509Certificates;
 
 namespace IdentityServer
 {
@@ -12,14 +13,15 @@ namespace IdentityServer
                 .AddInMemoryClients(Config.Clients)
                 .AddTestUsers(Config.TestUsers);
 
-
-            builder.AddDeveloperSigningCredential();
+            // fine for test
+            var cert = new X509Certificate2(@"IdentityServer4.pfx");
+            builder.AddSigningCredential(cert);
         }
 
         public void Configure(IApplicationBuilder app)
         {
             app.UseDeveloperExceptionPage();
-            app.UseIdentityServer();
+            app.UseIdentityServer();            
         }
     }
 }
